@@ -24,6 +24,7 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.1",
     "nodemailer": "^7.0.4",
+    "path-to-regexp": "^8.2.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
