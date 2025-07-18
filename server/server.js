@@ -55,15 +55,15 @@ app.get('/', (req, res) => {
 // Serve uploads folder statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// Apply rate limiting to all API routes
+app.use('/api', rateLimit);
+
 // API Routes
 app.use('/api/posts', postsRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/comments', commentsRouter);
 app.use('/api/upload', uploadRouter);
-
-// Apply rate limiting to all API routes
-app.use('/api', rateLimit);
 
 // Error handling middleware
 app.use(errorHandler);
