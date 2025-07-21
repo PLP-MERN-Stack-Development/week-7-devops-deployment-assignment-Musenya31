@@ -3,15 +3,16 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import PostView from './pages/PostView';
-import PostForm from './pages/PostForm';
-import ProtectedRoute from './components/ProtectedRoute';
-import Profile from './pages/Profile';
+import { Suspense, lazy } from 'react';
 import { SnackbarProvider } from 'notistack';
 import Box from '@mui/material/Box';
+
+const Home = lazy(() => import('./pages/Home'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const PostView = lazy(() => import('./pages/PostView'));
+const PostForm = lazy(() => import('./pages/PostForm'));
+const Profile = lazy(() => import('./pages/Profile'));
 
 // Create a modern theme
 const theme = createTheme({
@@ -72,15 +73,17 @@ function App() {
             <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f9f9f9' }}>
               <Navbar />
               <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/post/:id" element={<PostView />} />
-                  <Route path="/create-post" element={<ProtectedRoute><PostForm /></ProtectedRoute>} />
-                  <Route path="/edit-post/:id" element={<ProtectedRoute><PostForm /></ProtectedRoute>} />
-                  <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                </Routes>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/post/:id" element={<PostView />} />
+                    <Route path="/create-post" element={<ProtectedRoute><PostForm /></ProtectedRoute>} />
+                    <Route path="/edit-post/:id" element={<ProtectedRoute><PostForm /></ProtectedRoute>} />
+                    <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                  </Routes>
+                </Suspense>
               </Box>
             </Box>
           </Router>
