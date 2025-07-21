@@ -14,6 +14,12 @@ const rateLimit = require('./middleware/rateLimit');
 const helmet = require('helmet');
 
 const app = express();
+console.log('✅ Listing all mounted routes:');
+app._router.stack.forEach((layer) => {
+  if (layer.route && layer.route.path) {
+    console.log(`${Object.keys(layer.route.methods).join(', ').toUpperCase()} ${layer.route.path}`);
+  }
+});
 
 // Security headers
 app.use(helmet());
